@@ -8,6 +8,7 @@
 
 [Detection Rules and Collection Targets](#detection-rules-and-collection-targets "mention")\\
 
+<br>
 
 ## Technical Overview
 
