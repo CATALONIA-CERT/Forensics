@@ -58,9 +58,9 @@ Remote-control tool that allows unattended or interactive access to systems, wit
 
 **UDP**: 50001–50003
 
-</details> \\
+</details> 
 
----\\
+<br>
 
 ## Disk artifacts
 
