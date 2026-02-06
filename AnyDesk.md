@@ -88,7 +88,7 @@ ad.anynet.pwd_hash=5344a7a23b2abb6314c0fa0ae9e20339a62814b7c2fa494b49c897ad63c0d
 ad.anynet.pwd_salt=81279b158b9f3e2e697baef91f35b35b
 ```
 <br>
-***
+___
 
 ```
 C:\Users\<User>\%AppData%\Roaming\AnyDesk\ad.trace
@@ -131,8 +131,7 @@ info 2022-09-28 12:41:20.001 front 6252 496 app.local_file_transfer - Preparatio
 ```
 
 <br>
-***
-
+___
 
 ```
 C:\Users\<User>\%AppData%\Roaming\AnyDesk\printer_driver
