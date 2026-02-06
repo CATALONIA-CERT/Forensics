@@ -89,6 +89,7 @@ ad.anynet.pwd_salt=81279b158b9f3e2e697baef91f35b35b
 ```
 <br>
 ---
+<br>
 
 ```
 C:\Users\<User>\%AppData%\Roaming\AnyDesk\ad.trace
@@ -132,6 +133,7 @@ info 2022-09-28 12:41:20.001 front 6252 496 app.local_file_transfer - Preparatio
 
 <br>
 ---
+<br>
 
 ```
 C:\Users\<User>\%AppData%\Roaming\AnyDesk\printer_driver
@@ -182,6 +184,7 @@ Incoming 2022-09-28, 12:39 User 442226597 442226597
 
 <br>
 ---
+<br>
 
 `ad_svc.trace` is the <mark style="background-color:red;">**AnyDesk service log file.**</mark> It records session-related information, such as the IP address of the remote participant and their AnyDesk Client ID, and the **timestamp** when a connection is established.
 
