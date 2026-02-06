@@ -2,11 +2,11 @@
 
 #### Index
 
-[#technical-overview](#technical-overview "mention")
+[Technical Overview](#technical-overview "mention")
 
-[#disk-artifacts](#disk-artifacts "mention")
+[Disk Artifacts](#disk-artifacts "mention")
 
-[#detection-rules-and-collection-targets](#detection-rules-and-collection-targets "mention")
+[Detection Rules and Collection Targets](#detection-rules-and-collection-targets "mention")
 
 ## Technical Overview
 
@@ -58,6 +58,8 @@ Remote-control tool that allows unattended or interactive access to systems, wit
 
 </details>
 
+
+
 ## Disk artifacts
 
 ### <mark style="background-color:yellow;">AppData Folder</mark>
@@ -83,6 +85,7 @@ ad.anynet.pkey=-----BEGIN PRIVATE KEY-----\nMIIEvgIBA...aum\n-----END PRIVATE KE
 ad.anynet.pwd_hash=5344a7a23b2abb6314c0fa0ae9e20339a62814b7c2fa494b49c897ad63c0d7c9
 ad.anynet.pwd_salt=81279b158b9f3e2e697baef91f35b35b
 ```
+
 
 
 ```
@@ -117,9 +120,7 @@ info 2022-09-28 12:38:44.228 lsvc 9952 9944 2 anynet.connection_mgr - New user d
 ```
 
 
-
 * **File transfer** events -> `file_transfer`
-
 
 
 ```
@@ -133,7 +134,7 @@ info 2022-09-28 12:41:20.001 front 6252 496 app.local_file_transfer - Preparatio
 C:\Users\<User>\%AppData%\Roaming\AnyDesk\printer_driver
 ```
 
-> **Warning**
+> **Info**
 > Only available in the **installable version** of AnyDesk.
 
 Related to <mark style="background-color:yellow;">**printer installation**</mark>**,**  by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
@@ -154,9 +155,10 @@ C:\Windows\System32\winevt\Logs\Microsoft-Windows-DeviceSetupManager\Admin.evtx
 ```
 
 
+
 ### <mark style="background-color:red;">ProgramData Folder</mark>
 
-> **Warning**
+> **Info**
 > Only available in the **installable version** of AnyDesk.
 
 
@@ -174,6 +176,7 @@ C:\%PROGRAMDATA%\AnyDesk\connection_trace.txt
 Incoming 2022-09-28, Passwd 547911884 547911884
 Incoming 2022-09-28, 12:39 User 442226597 442226597
 ```
+
 
 
 `ad_svc.trace` is the <mark style="background-color:red;">**AnyDesk service log file.**</mark> It records session-related information, such as the IP address of the remote participant and their AnyDesk Client ID, and the **timestamp** when a connection is established.
@@ -202,9 +205,10 @@ info 2022-08-23 10:20:17.125 gsvc 4628 3528 23 anynet.any_socket - Logged in fro
 ```
 
 
+
 ### <mark style="background-color:blue;">Registry Keys</mark>
 
-> **Warning**
+> **Info**
 > Only available in the **installable version** of AnyDesk.
 
 During the **installation** of the program, specific registry keys and values are created. These artifacts can help determine the presence of the application and may also indicate the <mark style="background-color:blue;">**installation date.**</mark>
@@ -218,10 +222,10 @@ C:\Windows\System32\Config
 * Last modification date of the registry key `HKLM\`**`SOFTWARE`**`\Clients\Media\AnyDesk`
 * Registry modification date `HKLM\`**`SYSTEM`**`\CurrentControlSet\Services\AnyDesk`&#x20;
 
+  
+
 ## Detection rules and collection targets
 
 This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with AnyDesk.
 
-{% embed url="<https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape>" %}
-
-{% file src="<https://2750971996-files.gitbook.io/~/files/v0/b/gitbook-x-prod.appspot.com/o/spaces%2FBsthJZiTrW0BhfkoB5kN%2Fuploads%2FuTBTaXVNdJeKTUt20O7a%2Fanydesk_def.yaml?alt=media&token=bdcf1e0a-6cfa-45b5-841a-facb51137802>" %}
+tkape example --> https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape
