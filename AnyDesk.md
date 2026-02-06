@@ -60,7 +60,7 @@ Remote-control tool that allows unattended or interactive access to systems, wit
 
 </details> 
 
-<br>
+<br><br>
 
 ## Disk artifacts
 
@@ -87,9 +87,8 @@ ad.anynet.pkey=-----BEGIN PRIVATE KEY-----\nMIIEvgIBA...aum\n-----END PRIVATE KE
 ad.anynet.pwd_hash=5344a7a23b2abb6314c0fa0ae9e20339a62814b7c2fa494b49c897ad63c0d7c9
 ad.anynet.pwd_salt=81279b158b9f3e2e697baef91f35b35b
 ```
-
----
-
+<br>
+***
 
 ```
 C:\Users\<User>\%AppData%\Roaming\AnyDesk\ad.trace
@@ -131,7 +130,9 @@ info 2022-09-28 12:41:20.001 front 6252 496 app.prepare_task - Preparing files i
 info 2022-09-28 12:41:20.001 front 6252 496 app.local_file_transfer - Preparation of 1 files completed (io_ok)
 ```
 
----
+<br>
+***
+
 
 ```
 C:\Users\<User>\%AppData%\Roaming\AnyDesk\printer_driver
@@ -156,8 +157,8 @@ C:\Windows\System32\winevt\Logs\Microsoft-Windows-DeviceSetupManager\Admin.evtx
 ```
 "Prop\_ContainerId":"4AB05252-BFD6-C6E9-7D0E-58FBD6159485","Prop\_DeviceName":"AnyDesk Printer","Prop\_PropertyCount":42,"Prop\_TaskCount":4,"Prop\_WorkTime\_MilliSeconds":46
 ```
-\\
 
+<br><br>
 
 ### <mark style="background-color:red;">ProgramData Folder</mark>
 
@@ -180,8 +181,8 @@ Incoming 2022-09-28, Passwd 547911884 547911884
 Incoming 2022-09-28, 12:39 User 442226597 442226597
 ```
 
----
-
+<br>
+***
 
 `ad_svc.trace` is the <mark style="background-color:red;">**AnyDesk service log file.**</mark> It records session-related information, such as the IP address of the remote participant and their AnyDesk Client ID, and the **timestamp** when a connection is established.
 
@@ -208,7 +209,7 @@ info 2022-08-23 10:20:17.125 gsvc 4628 3528 23 anynet.any_socket - Client-ID: 54
 info 2022-08-23 10:20:17.125 gsvc 4628 3528 23 anynet.any_socket - Logged in from 12.xx.xx.21:41314 on relay ad3345a7.
 ```
 
-\\
+<br><br>
 
 ### <mark style="background-color:blue;">Registry Keys</mark>
 
@@ -226,7 +227,7 @@ C:\Windows\System32\Config
 * Last modification date of the registry key `HKLM\`**`SOFTWARE`**`\Clients\Media\AnyDesk`
 * Registry modification date `HKLM\`**`SYSTEM`**`\CurrentControlSet\Services\AnyDesk`&#x20;
 
-  \\
+<br><br>
 
 ## Detection rules and collection targets
 
