@@ -161,7 +161,7 @@ C:\Windows\System32\winevt\Logs\Microsoft-Windows-DeviceSetupManager\Admin.evtx
 
 <br><br>
 
-### <mark style="background-color:red;">ProgramData Folder</mark>
+> <span style="color:red; font-weight:bold;">ProgramData Folder</span>
 
 > **Info**
 > Only available in the **installable version** of AnyDesk.
