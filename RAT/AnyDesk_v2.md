@@ -87,7 +87,6 @@ info 2022-09-28 12:38:44.228 lsvc 9952 9944 2 anynet.connection_mgr - New user d
 
 * #### <mark style="color:$info;background-color:yellow;">Printer installation</mark>
 
-{% hint style="info" %}
 Only available in the **installable version** of AnyDesk.
 
 Related to **printer installation,**  by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
