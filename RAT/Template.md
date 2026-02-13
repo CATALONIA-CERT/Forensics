@@ -16,7 +16,7 @@
 
 <br>
 
-> **_Template note- This section is for guidance only and must be removed from the final artifact profile._**
+> **_Template note- This section is for guidance only and must be removed from the final document._**
 > <br>
 > **Platform-specific artifacts:**  
 > If the tool generates different artifacts on Windows and Linux, you may separate them into two subsections (e.g., **Windows Artifacts** and **Linux Artifacts**) and document the corresponding artifacts and data for each OS.
