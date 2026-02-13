@@ -102,12 +102,14 @@ _Relevant log entries_
 ## <mark style="color:$primary;">4.</mark>  Disk artifacts
 Persistent data the tool writes to disk, including configuration files, logs, system files, and other persistent data created.
 
+> **_Template note- This section is for guidance only and must be removed from the final document._**
+> <br>
 > _**# Example entries:**_
-- _4.a. Application Data_
-- _4.b. ProgramData / System Folders_
-- _4.c. Configuration Files_
-- _4.d. Log Files_
-- _4.e. Registry Keys / Preference_
+> - _4.a. Application Data_
+> - _4.b. ProgramData / System Folders_
+> - _4.c. Configuration Files_
+> - _4.d. Log Files_
+> - _4.e. Registry Keys / Preference_
 
 <br>
 
@@ -175,11 +177,13 @@ _Relevant log entries_
 <a id="runtime-artifacts"></a>
 ## <mark style="color:$primary;">5.</mark>  Runtime artifacts
 Evidence produced during the tool’s execution, such as processes, network connections, session activity, temporary files, and other live data.
+> **_Template note- This section is for guidance only and must be removed from the final document._**
+> <br>
 > _**# Example entries:**_
-- _5.a. Services / Daemons_
-- _5.b. Network Activity_
-- _5.c. Client–Server Communication_
-- _5.d. Remote Session Traces_
+> - _5.a. Services / Daemons_
+> - _5.b. Network Activity_
+> - _5.c. Client–Server Communication_
+> - _5.d. Remote Session Traces_
 
 <br>
 
