@@ -1,4 +1,4 @@
-# v2. AnyDesk
+# AnyDesk
 
 ### <mark style="color:$primary;">Index:</mark>
 
@@ -14,7 +14,7 @@
 
 ## <mark style="color:$primary;">1.</mark>  Technical Overview
 
-<table><thead><tr><th width="242.7999267578125" align="center">Category</th><th>Details</th></tr></thead><tbody><tr><td align="center"><mark style="color:$primary;"><strong>Description</strong></mark></td><td>Remote-control tool that allows unattended or interactive access to systems, with features such as file transfer and remote management.</td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Tactics and Techniques</strong></mark></td><td><ul><li><strong>TA0010</strong> – Exfiltration<br>        - T1567.002 – Exfiltration Over Web Services</li><li><strong>TA0011</strong> – Command and Control<br>        - T1219 – Remote Access Software</li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Privileges</strong></mark> </td><td>Not required</td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Operating systems</strong></mark></td><td><ul><li>Windows</li><li>Linux</li><li>macOS</li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Communicating protocol</strong></mark> </td><td><ul><li><strong>TCP</strong>: 80, 443, 6568</li><li><strong>UDP</strong>: 50001–50003</li></ul></td></tr></tbody></table>
+<table><thead><tr><th width="242.7999267578125" align="center">Category</th><th>Details</th></tr></thead><tbody><tr><td align="center"><mark style="color:$primary;"><strong>Description</strong></mark></td><td>Remote-control tool that allows unattended or interactive access to systems, with features such as file transfer and remote management.<br> Anydesk is used as a desktop application, and it can be installed on the system or used as portable.</td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Tactics and Techniques</strong></mark></td><td><ul><li><strong>TA0010</strong> – Exfiltration<br>        - T1567.002 – Exfiltration Over Web Services</li><li><strong>TA0011</strong> – Command and Control<br>        - T1219 – Remote Access Software</li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Privileges</strong></mark> </td><td>Not required</td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Operating systems</strong></mark></td><td><ul><li>Windows</li><li>Linux</li><li>macOS</li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Communicating protocol</strong></mark> </td><td><ul><li><strong>TCP</strong>: 80, 443, 6568</li><li><strong>UDP</strong>: 50001–50003</li></ul></td></tr></tbody></table>
 
 <br>
 
