@@ -204,7 +204,7 @@ _Relevant log entries_
 
 This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with AnyDesk.
 
-> **_Template note- This section is for guidance only and must be removed from the final document._**
+> **_Template note- This section is for guidance only and must be removed from the final document._**<br>
 >_Link to the [tkapes/sigmas folder](Outputs) within Forensics or link to tkapes/sigmas found on the internet_
 <br>
 _tkape_ example - https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape
