@@ -20,9 +20,26 @@
 > <br>
 > **Platform-specific artifacts:**  
 > If the tool generates different artifacts on Windows and Linux, you may separate them into two subsections (e.g., **Windows Artifacts** and **Linux Artifacts**) and document the corresponding artifacts and data for each OS.
-> 
+> <br>
+> _**# Example**_<br>
+> >**3. Windows Artifacts** <br>
+> 3.1 Installation artifacts <br>
+> 3.2 Disk artifacts <br>
+> 3.3 Runtime artifacts <br>
+> **4. Linux artifacts** <br>
+> 4.1 Installation artifacts <br>
+> 4.2 Disk artifacts <br>
+> 4.3 Runtime artifacts <br>
+>
 > If there are no meaningful differences between platforms, you may indicate the Windows and Linux paths directly within each artifact entry, specifying the location for each operating system.
-
+> > _**# Example**_ <br>
+> **3.Installation artifacts** <br>
+> 3.1 Windows<br>
+> 3.2 Linux<br>
+> **4. Disk artifacts** <br>
+> 4.1 Windows<br>
+> 4.2 Linux<br>
+> **5. Runtime artifacts**<br>
 
 <br>
 
@@ -205,6 +222,6 @@ _Relevant log entries_
 This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with AnyDesk.
 
 > **_Template note- This section is for guidance only and must be removed from the final document._**<br>
->_Link to the [tkapes/sigmas folder](Outputs) within Forensics or link to tkapes/sigmas found on the internet_
+>_Add the link to the [tkapes/sigmas folder](Outputs) within Forensics or link to tkapes/sigmas found on the internet_ <br>
+> _**# Example**_ -> _tkape_ example - https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape
 <br>
-_tkape_ example - https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape
