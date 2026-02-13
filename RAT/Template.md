@@ -30,18 +30,56 @@ High-level table summarizing key artifacts, their locations, and relevance.
 
 
 ## <mark style="color:$primary;">3.</mark>  Installation artifacts
-_Explanation of artifacts created during installation:_
+Explanation of artifacts created during installation:
+<br> 
+<br>
+> _**# Example entries**:_
+- _3.a Installation directories_
+- _3.b Packages / installers_
+- _3.c System services or daemons created_
+- _3.d Initial configuration files_
+
+### <mark style="background-color:yellow;">3.a  Installation directories </mark>
+
+* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
+
+_Description of artifact function and evidence value_
+<br>
+> _**# Example**_ - The file <mark style="background-color:yellow;">**`ad.trace`**</mark> serves as the **user interface log** for AnyDesk. It records critical session details, including the IP address of the remote participant, their AnyDesk ID, and events related to file transfers.
+
+```
+Artifact location/path
+```
+
+> **What to look for?**
+
+To extract _connection details_, search for the following `strings`
+
+* _Example_ -> User interface **logging** -> `Logged in`
+
+```
+_Relevant log entries_
+```
+
+* _Example_ -> **External IP** and local host **Client ID** -> `External address`
+
+```
+_Relevant log entries_
+```
+
+***
+<br>
+
+***
+<br>
+
+## <mark style="color:$primary;">4.</mark>  Disk artifacts
 - _Installation directories_
 - _Packages / installers_
 - _System services or daemons created_
 - _Initial configuration files_
 
-***
-<br>
-
-## <mark style="color:$primary;">3.</mark>  Disk artifacts
-
-### <mark style="background-color:yellow;">a.  Type of artifact </mark>
+### <mark style="background-color:yellow;">4.a  Type of artifact </mark>
 
 * #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
 
