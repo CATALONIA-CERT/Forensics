@@ -2,17 +2,29 @@
 
 ### <mark style="color:$primary;">Index:</mark>
 
+[1. Technical overview](#technical-overview)
 
-[1. Technical overview](#technical-overview)  
-[2. Summary table of artifacts](#summary-table-of-artifacts)  
+[2. Summary table of artifacts](#summary-table-of-artifacts)
+
 [3. Installation artifacts](#installation-artifacts)  
-[4. Disk artifacts](#disk-artifacts)  
-[5. Runtime artifacts](#runtime-artifacts)  
-[6. Detection rules and collection targets](#detection-rules-and-collection-targets)
 
+[4. Disk artifacts](#disk-artifacts)
+
+[5. Runtime artifacts](#runtime-artifacts)
+
+[6. Detection rules and collection targets](#detection-rules-and-collection-targets)
 
 <br>
 
+> **_Template note- This section is for guidance only and must be removed from the final artifact profile._**
+> <br>
+> **Platform-specific artifacts:**  
+> If the tool generates different artifacts on Windows and Linux, you may separate them into two subsections (e.g., **Windows Artifacts** and **Linux Artifacts**) and document the corresponding artifacts and data for each OS.
+> 
+> If there are no meaningful differences between platforms, you may indicate the Windows and Linux paths directly within each artifact entry, specifying the location for each operating system.
+
+
+<br>
 
 <a id="technical-overview"></a>
 ## <mark style="color:$primary;">1.</mark>  Technical overview
@@ -32,7 +44,6 @@ Overview table summarizing the main artifacts, where they reside and what inform
 <table><thead><tr><th width="158.66650390625">Source<select><option value="yBAVrD55ExlM" label="Artifact name" color="blue"></option><option value="FCAyhC5psETt" label="Artifact name" color="blue"></option><option value="F2QHAmDGa4vY" label="Artifact name" color="blue"></option><option value="LAw3BI0AB4qD" label="Artifact name" color="blue"></option></select></th><th width="429.066650390625">Artifact</th><th width="236.0543212890625">Indicator</th></tr></thead><tbody><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk*.conf</code></td><td><p>Configuration files:</p><ul><li>system.conf</li></ul></td></tr><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk\ad.trace</code></td><td><p>Session details: </p><ul><li>IP address of the remote participant</li><li>File transfers</li></ul></td></tr><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><ul><li><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk\printer_driver</code></li><li><code>C:\Windows\System32\winevt\Logs\Microsoft-Windows-DeviceSetupManager\Admin.evtx</code></li></ul></td><td>Printer driver installation during setup</td></tr><tr><td><span data-option="F2QHAmDGa4vY">Artifact name</span></td><td><code>C:%PROGRAMDATA%\AnyDesk\connection_trace.txt</code></td><td>Details of incoming connection and how the connection was authorized</td></tr><tr><td><span data-option="F2QHAmDGa4vY">Artifact name</span></td><td><code>C:%PROGRAMDATA%\AnyDesk\ad_svc.trace</code></td><td><p>AnyDesk service log file that records session-related information:</p><ul><li>IP address of the remote participant</li></ul></td></tr><tr><td><span data-option="LAw3BI0AB4qD">Artifact name</span></td><td><code>HKLM\SOFTWARE\Clients\Media\AnyDesk</code><br><code>HKLM\SYSTEM\CurrentControlSet\Services\AnyDesk</code></td><td>Installation date</td></tr></tbody></table>
 
 <br>
-
 
 <a id="installation-artifacts"></a>
 ## <mark style="color:$primary;">3.</mark>  Installation artifacts
