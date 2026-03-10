@@ -1,0 +1,231 @@
+# Revsocks
+
+### <mark style="color:$primary;">Index:</mark>
+
+[1. Technical overview](#technical-overview)
+
+[2. Summary table of artifacts](#summary-table-of-artifacts)
+
+[3. Installation artifacts](#installation-artifacts)  
+
+[4. Disk artifacts](#disk-artifacts)
+
+[5. Runtime artifacts](#runtime-artifacts)
+
+[6. Detection rules and collection targets](#detection-rules-and-collection-targets)
+
+<br>
+
+> **_Template note- This section is for guidance only and must be removed from the final document._**
+> <br>
+> **Platform-specific artifacts:**  
+> If the tool generates different artifacts on Windows and Linux, you may separate them into two subsections (e.g., **Windows Artifacts** and **Linux Artifacts**) and document the corresponding artifacts and data for each OS.
+> <br>
+> _**# Example**_<br>
+> >**3. Windows Artifacts** <br>
+> 3.1 Installation artifacts <br>
+> 3.2 Disk artifacts <br>
+> 3.3 Runtime artifacts <br>
+> **4. Linux artifacts** <br>
+> 4.1 Installation artifacts <br>
+> 4.2 Disk artifacts <br>
+> 4.3 Runtime artifacts <br>
+>
+> If there are no meaningful differences between platforms, you may indicate the Windows and Linux paths directly within each artifact entry, specifying the location for each operating system.
+> > _**# Example**_ <br>
+> **3.Installation artifacts** <br>
+> 3.1 Windows<br>
+> 3.2 Linux<br>
+> **4. Disk artifacts** <br>
+> 4.1 Windows<br>
+> 4.2 Linux<br>
+> **5. Runtime artifacts**<br>
+
+<br>
+
+<a id="technical-overview"></a>
+## <mark style="color:$primary;">1.</mark>  Technical overview
+
+High‑level description of the tool’s purpose, functionality, and operating behavior.
+
+<table><thead><tr><th width="242.7999267578125" align="center">Category</th><th>Details</th></tr></thead><tbody><tr><td align="center"><mark style="color:$primary;"><strong>Description</strong></mark></td><td>Brief description of the tool - Example: Remote-control tool that allows unattended or interactive access to systems, with features such as file transfer and remote management. </td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Tactics and Techniques</strong></mark></td><td><ul><li><strong>TA00XX</strong> – Tactic Name <br>        - T1XXX.00X – Tecnique Name </li></li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Privileges</strong></mark> </td><td>(Not) required</td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Operating systems</strong></mark></td><td><ul><li>Windows</li><li>Linux</li><li>macOS</li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Communicating protocol</strong></mark> </td><td><ul><li><strong>TCP</strong>: 80, 443, 6568</li><li><strong>UDP</strong>: 50001–50003</li></ul></td></tr></tbody></table>
+
+<br>
+
+
+<a id="summary-table-of-artifacts"></a>
+## <mark style="color:$primary;">2.</mark>  Summary table of artifacts
+
+Overview table summarizing the main artifacts, where they reside and what information they contain.
+
+<table><thead><tr><th width="158.66650390625">Source<select><option value="yBAVrD55ExlM" label="Artifact name" color="blue"></option><option value="FCAyhC5psETt" label="Artifact name" color="blue"></option><option value="F2QHAmDGa4vY" label="Artifact name" color="blue"></option><option value="LAw3BI0AB4qD" label="Artifact name" color="blue"></option></select></th><th width="429.066650390625">Artifact</th><th width="236.0543212890625">Indicator</th></tr></thead><tbody><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk*.conf</code></td><td><p>Configuration files:</p><ul><li>system.conf</li></ul></td></tr><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk\ad.trace</code></td><td><p>Session details: </p><ul><li>IP address of the remote participant</li><li>File transfers</li></ul></td></tr><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><ul><li><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk\printer_driver</code></li><li><code>C:\Windows\System32\winevt\Logs\Microsoft-Windows-DeviceSetupManager\Admin.evtx</code></li></ul></td><td>Printer driver installation during setup</td></tr><tr><td><span data-option="F2QHAmDGa4vY">Artifact name</span></td><td><code>C:%PROGRAMDATA%\AnyDesk\connection_trace.txt</code></td><td>Details of incoming connection and how the connection was authorized</td></tr><tr><td><span data-option="F2QHAmDGa4vY">Artifact name</span></td><td><code>C:%PROGRAMDATA%\AnyDesk\ad_svc.trace</code></td><td><p>AnyDesk service log file that records session-related information:</p><ul><li>IP address of the remote participant</li></ul></td></tr><tr><td><span data-option="LAw3BI0AB4qD">Artifact name</span></td><td><code>HKLM\SOFTWARE\Clients\Media\AnyDesk</code><br><code>HKLM\SYSTEM\CurrentControlSet\Services\AnyDesk</code></td><td>Installation date</td></tr></tbody></table>
+
+<br>
+
+<a id="installation-artifacts"></a>
+## <mark style="color:$primary;">3.</mark>  Installation artifacts
+> Only available in the **installable version** of AnyDesk.
+
+Data generated by the installation process, such as directories, installers, system services, and baseline configuration files. 
+
+### <mark style="background-color:yellow;">3.a  Artifact name </mark>
+
+_Description of artifact function and evidence value_
+<br>
+> _**# Example**_ - The file <mark style="background-color:yellow;">**`ad.trace`**</mark> serves as the **user interface log** for AnyDesk. It records critical session details, including the IP address of the remote participant, their AnyDesk ID, and events related to file transfers.
+
+```
+Artifact location/path
+```
+
+> **What to look for?**
+
+To extract _XXXX details_, search for the following `strings`
+
+* _**# Example**_ -> User interface **logging** -> `Logged in`
+
+```
+_Relevant log entries_
+```
+
+* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
+
+```
+_Relevant log entries_
+```
+
+***
+<br>
+
+
+<a id="disk-artifacts"></a>
+## <mark style="color:$primary;">4.</mark>  Disk artifacts
+Persistent data the tool writes to disk, including configuration files, logs, system files, and other persistent data created.
+
+> **_Template note- This section is for guidance only and must be removed from the final document._**
+> <br>
+> _**# Example entries:**_
+> - _4.a. Application Data_
+> - _4.b. ProgramData / System Folders_
+> - _4.c. Configuration Files_
+> - _4.d. Log Files_
+> - _4.e. Registry Keys / Preference_
+
+<br>
+
+
+### <mark style="background-color:yellow;">4.a  Artifact name </mark>
+
+* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
+
+_Description of artifact function and evidence value_
+<br>
+> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+
+```
+Artifact location/path
+```
+
+> **What to look for?**
+
+To extract _XXXXX details_, search for the following `strings`
+
+* _**# Example**_ -> User interface **logging** -> `Logged in`
+
+```
+_Relevant log entries_
+```
+
+* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
+
+```
+_Relevant log entries_
+```
+
+### <mark style="background-color:yellow;">4.b  Artifact name </mark>
+
+* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
+
+_Description of artifact function and evidence value_
+<br>
+> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+
+```
+Artifact location/path
+```
+
+> **What to look for?**
+
+To extract _XXXXX details_, search for the following `strings`
+
+* _**# Example**_ -> User interface **logging** -> `Logged in`
+
+```
+_Relevant log entries_
+```
+
+* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
+
+```
+_Relevant log entries_
+```
+
+***
+<br>
+
+
+<a id="runtime-artifacts"></a>
+## <mark style="color:$primary;">5.</mark>  Runtime artifacts
+Evidence produced during the tool’s execution, such as processes, network connections, session activity, temporary files, and other live data.
+> **_Template note- This section is for guidance only and must be removed from the final document._**
+> <br>
+> _**# Example entries:**_
+> - _5.a. Services / Daemons_
+> - _5.b. Network Activity_
+> - _5.c. Client–Server Communication_
+> - _5.d. Remote Session Traces_
+
+<br>
+
+### <mark style="background-color:yellow;">5.a  Artifact name </mark>
+
+* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
+
+_Description of artifact function and evidence value_
+<br>
+> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+
+```
+Artifact location/path
+```
+
+> **What to look for?**
+
+To extract _XXXXX details_, search for the following `strings`
+
+* _**# Example**_ -> User interface **logging** -> `Logged in`
+
+```
+_Relevant log entries_
+```
+
+* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
+
+```
+_Relevant log entries_
+```
+
+***
+<br>
+
+
+
+<a id="detection-rules-and-collection-targets"></a>
+## <mark style="color:$primary;">6.</mark>  Detection rules and collection targets
+
+This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with AnyDesk.
+
+> **_Template note- This section is for guidance only and must be removed from the final document._**<br>
+>_Add the link to the [tkapes/sigmas folder](Outputs) within Forensics or link to tkapes/sigmas found on the internet_ <br>
+> _**# Example**_ -> _tkape_ example - https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape
+<br>
