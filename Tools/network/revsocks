@@ -1,105 +1,68 @@
 # Revsocks
 
-### <mark style="color:$primary;">Index:</mark>
+## Index
 
-[1. Technical overview](#technical-overview)
+- [Revsocks](#revsocks)
+  - [Index](#index)
+  - [1. Technical overview](#1-technical-overview)
+  - [2. Summary table of artifacts](#2-summary-table-of-artifacts)
+  - [3. Installation artifacts](#3-installation-artifacts)
+  - [4. Disk artifacts](#4-disk-artifacts)
+    - [4.a. Application Data ](#4a-application-data-)
+    - [4.b. ProgramData / System Folders ](#4b-programdata--system-folders-)
+    - [4.c. Configuration Files ](#4c-configuration-files-)
+    - [4.d. Log Files ](#4d-log-files-)
+    - [4.e. Registry Keys / Preference ](#4e-registry-keys--preference-)
+  - [5.  Runtime artifacts](#5--runtime-artifacts)
+    - [5.a  Artifact name ](#5a--artifact-name-)
+  - [6. Detection rules and collection targets](#6-detection-rules-and-collection-targets)
 
-[2. Summary table of artifacts](#summary-table-of-artifacts)
 
-[3. Installation artifacts](#installation-artifacts)  
-
-[4. Disk artifacts](#disk-artifacts)
-
-[5. Runtime artifacts](#runtime-artifacts)
-
-[6. Detection rules and collection targets](#detection-rules-and-collection-targets)
-
-<br>
-
-> **_Template note- This section is for guidance only and must be removed from the final document._**
-> <br>
-> **Platform-specific artifacts:**  
-> If the tool generates different artifacts on Windows and Linux, you may separate them into two subsections (e.g., **Windows Artifacts** and **Linux Artifacts**) and document the corresponding artifacts and data for each OS.
-> <br>
-> _**# Example**_<br>
-> >**3. Windows Artifacts** <br>
-> 3.1 Installation artifacts <br>
-> 3.2 Disk artifacts <br>
-> 3.3 Runtime artifacts <br>
-> **4. Linux artifacts** <br>
-> 4.1 Installation artifacts <br>
-> 4.2 Disk artifacts <br>
-> 4.3 Runtime artifacts <br>
->
-> If there are no meaningful differences between platforms, you may indicate the Windows and Linux paths directly within each artifact entry, specifying the location for each operating system.
-> > _**# Example**_ <br>
-> **3.Installation artifacts** <br>
-> 3.1 Windows<br>
-> 3.2 Linux<br>
-> **4. Disk artifacts** <br>
-> 4.1 Windows<br>
-> 4.2 Linux<br>
-> **5. Runtime artifacts**<br>
-
-<br>
-
-<a id="technical-overview"></a>
-## <mark style="color:$primary;">1.</mark>  Technical overview
+## 1. Technical overview
 
 High‑level description of the tool’s purpose, functionality, and operating behavior.
 
-<table><thead><tr><th width="242.7999267578125" align="center">Category</th><th>Details</th></tr></thead><tbody><tr><td align="center"><mark style="color:$primary;"><strong>Description</strong></mark></td><td>Brief description of the tool - Example: Remote-control tool that allows unattended or interactive access to systems, with features such as file transfer and remote management. </td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Tactics and Techniques</strong></mark></td><td><ul><li><strong>TA00XX</strong> – Tactic Name <br>        - T1XXX.00X – Tecnique Name </li></li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Privileges</strong></mark> </td><td>(Not) required</td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Operating systems</strong></mark></td><td><ul><li>Windows</li><li>Linux</li><li>macOS</li></ul></td></tr><tr><td align="center"><mark style="color:$primary;"><strong>Communicating protocol</strong></mark> </td><td><ul><li><strong>TCP</strong>: 80, 443, 6568</li><li><strong>UDP</strong>: 50001–50003</li></ul></td></tr></tbody></table>
+| Section | Content |
+|---------|---------|
+| Description | GitHub – kost/revsocks: Reverse SOCKS5 implementation in Go  <br><br>Reverse SOCKS5 tunneler with SSL/TLS and proxy support (without proxy authentication and with basic/NTLM proxy authentication) that can also reverse itself over a firewall. |
+| Tactics & Techniques | TA0005 – Defense Evasion  <br>• T1572 – Protocol Tunneling  <br>• T1090 – Proxy  <br>• T1071.001 – Web Protocols (WebSocket/HTTPS)  <br>• T1071.004 – DNS (SOCKS over DNS)  <br>• T1573 – Encrypted Channel (TLS by default)  <br><br>TA0007 – Discovery  <br>• T1012 – Query Registry (WinSock registry keys)  <br>• T1016 – System Network Configuration Discovery (inspection of network stack/capabilities)  <br>• API context: WSAEnumProtocols* to enumerate installed protocols  <br><br>TA0011 – Command and Control  <br>• T1090 – Proxy |
+| Privileges | No (Portable Mode) |
+| OS | Windows, Linux, macOS (written in Go) |
+| Network | Typically:  <br>• TCP/8443 (C2C)  <br>• TCP/1080 (victim side)  <br>• TCP/53 or UDP/53 (DNS) |
 
-<br>
 
-
-<a id="summary-table-of-artifacts"></a>
-## <mark style="color:$primary;">2.</mark>  Summary table of artifacts
+## 2. Summary table of artifacts
 
 Overview table summarizing the main artifacts, where they reside and what information they contain.
 
-<table><thead><tr><th width="158.66650390625">Source<select><option value="yBAVrD55ExlM" label="Artifact name" color="blue"></option><option value="FCAyhC5psETt" label="Artifact name" color="blue"></option><option value="F2QHAmDGa4vY" label="Artifact name" color="blue"></option><option value="LAw3BI0AB4qD" label="Artifact name" color="blue"></option></select></th><th width="429.066650390625">Artifact</th><th width="236.0543212890625">Indicator</th></tr></thead><tbody><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk*.conf</code></td><td><p>Configuration files:</p><ul><li>system.conf</li></ul></td></tr><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk\ad.trace</code></td><td><p>Session details: </p><ul><li>IP address of the remote participant</li><li>File transfers</li></ul></td></tr><tr><td><span data-option="yBAVrD55ExlM">Artifact name</span></td><td><ul><li><code>C:\Users&#x3C;User>%AppData%\Roaming\AnyDesk\printer_driver</code></li><li><code>C:\Windows\System32\winevt\Logs\Microsoft-Windows-DeviceSetupManager\Admin.evtx</code></li></ul></td><td>Printer driver installation during setup</td></tr><tr><td><span data-option="F2QHAmDGa4vY">Artifact name</span></td><td><code>C:%PROGRAMDATA%\AnyDesk\connection_trace.txt</code></td><td>Details of incoming connection and how the connection was authorized</td></tr><tr><td><span data-option="F2QHAmDGa4vY">Artifact name</span></td><td><code>C:%PROGRAMDATA%\AnyDesk\ad_svc.trace</code></td><td><p>AnyDesk service log file that records session-related information:</p><ul><li>IP address of the remote participant</li></ul></td></tr><tr><td><span data-option="LAw3BI0AB4qD">Artifact name</span></td><td><code>HKLM\SOFTWARE\Clients\Media\AnyDesk</code><br><code>HKLM\SYSTEM\CurrentControlSet\Services\AnyDesk</code></td><td>Installation date</td></tr></tbody></table>
+Disk artifacts:
 
-<br>
+| Source | Artifact | Indicator |
+|------------|----------|-----------|
+| Binary execution | %SystemRoot%\Prefetch  <br>%SystemRoot%\System32\config\SYSTEM  <br>%SystemRoot%\AppCompat\Programs\Amcache.hve | • Prefetch: executable name, path, and execution count  <br>• Amcache/ShimCache: historical execution metadata for binaries, SHA1 hash |
+| Process events | %SystemRoot%\System32\winevt\Logs | Event ID 4688 (process creation) |
+| PowerShell logs | %SystemRoot%\System32\winevt\Logs | • Script Block Logging (4104), transcripts  <br>• Commands and parameters captured if ScriptBlockLogging or Transcription were enabled |
+| Binary errors | %ProgramData%\Microsoft\Windows\WER\ReportArchive\  <br>%LOCALAPPDATA%\Microsoft\Windows\WER\ReportArchive\ | Windows Error Reporting (WER) logs |
+| Attacker-created persistence (not built into the tool) | Multiple | • Rare or unknown services  <br>• Run keys  <br>• Unrecognized scheduled tasks |
+| File system | Bit‑by‑bit disk copy  <br>%APPDATA%\Roaming\Microsoft\Windows\Recent | • Does not write files to the file system  <br>• Does not generate .conf, .json, .ini  <br>• No installers or paths created by the tool  <br>• Copies of the binary may be found in shadow copies or auxiliary scripts  <br>• LNK files may appear in Recent Items referencing the binary |
 
-<a id="installation-artifacts"></a>
-## <mark style="color:$primary;">3.</mark>  Installation artifacts
-> Only available in the **installable version** of AnyDesk.
+Runtime artifacts:
 
-Data generated by the installation process, such as directories, installers, system services, and baseline configuration files. 
-
-### <mark style="background-color:yellow;">3.a  Artifact name </mark>
-
-_Description of artifact function and evidence value_
-<br>
-> _**# Example**_ - The file <mark style="background-color:yellow;">**`ad.trace`**</mark> serves as the **user interface log** for AnyDesk. It records critical session details, including the IP address of the remote participant, their AnyDesk ID, and events related to file transfers.
-
-```
-Artifact location/path
-```
-
-> **What to look for?**
-
-To extract _XXXX details_, search for the following `strings`
-
-* _**# Example**_ -> User interface **logging** -> `Logged in`
-
-```
-_Relevant log entries_
-```
-
-* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
-
-```
-_Relevant log entries_
-```
-
-***
-<br>
+| Source | Artifact | Indicator |
+|------------|----------|-----------|
+| Enumeration of WinSock providers | %SystemRoot%\System32\Config\SYSTEM | HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\WinSock2\Parameters <br> (This is quite characteristic of reverse proxies.) |
+| API calls | Memory dump, procdump or EDR | • WSAStartup  <br>• WSAEnumProtocolsW  <br>• WSAGetOverlappedResult |
+| DLLs in memory | Memory dump, procdump or EDR | • WS2_32.dll  <br>• wship6.dll  <br>• wshtcpip.dll  <br>• wshqos.dll <br> (Common in tunneling tools.) |
+| Generic network detection | Memory dump, procdump, EDR, FW, IDS/IPS | Long‑lived TCP connection with:  <br>• Low throughput  <br>• Multiplexed traffic  <br>• Repetitive bytes (Go framing)  <br>• Unusual DNS traffic |
+| Detection of TLS network traffic | Memory dump, procdump, EDR, FW, IDS/IPS | • Recently issued Let's Encrypt certificates  <br>• Customized SNI  <br>• ALPN not typical (h2, http/1.1) |
+| Detection of non‑TLS network traffic | Memory dump, procdump, EDR, FW, IDS/IPS | • First bytes do not match standard SOCKS5 handshake  <br>• protobuf sequences observed  <br>• Multiplexed channels with channel ID |
 
 
-<a id="disk-artifacts"></a>
-## <mark style="color:$primary;">4.</mark>  Disk artifacts
+## 3. Installation artifacts
+Not applicable.
+
+
+## 4. Disk artifacts
 Persistent data the tool writes to disk, including configuration files, logs, system files, and other persistent data created.
 
 > **_Template note- This section is for guidance only and must be removed from the final document._**
@@ -114,7 +77,7 @@ Persistent data the tool writes to disk, including configuration files, logs, sy
 <br>
 
 
-### <mark style="background-color:yellow;">4.a  Artifact name </mark>
+### <mark style="background-color:yellow;">4.a. Application Data </mark>
 
 * #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
 
@@ -142,7 +105,43 @@ _Relevant log entries_
 _Relevant log entries_
 ```
 
-### <mark style="background-color:yellow;">4.b  Artifact name </mark>
+### <mark style="background-color:yellow;">4.b. ProgramData / System Folders </mark>
+
+* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
+
+_Description of artifact function and evidence value_
+<br>
+> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+
+```
+Artifact location/path
+```
+
+> **What to look for?**
+
+To extract _XXXXX details_, search for the following `strings`
+
+* _**# Example**_ -> User interface **logging** -> `Logged in`
+
+```
+_Relevant log entries_
+```
+
+* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
+
+```
+_Relevant log entries_
+```
+
+### <mark style="background-color:yellow;">4.c. Configuration Files </mark>
+
+Not applicable
+
+### <mark style="background-color:yellow;">4.d. Log Files </mark>
+
+Not applicable
+
+### <mark style="background-color:yellow;">4.e. Registry Keys / Preference </mark>
 
 * #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
 
@@ -220,12 +219,96 @@ _Relevant log entries_
 
 
 
-<a id="detection-rules-and-collection-targets"></a>
-## <mark style="color:$primary;">6.</mark>  Detection rules and collection targets
+## 6. Detection rules and collection targets
 
 This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with AnyDesk.
 
-> **_Template note- This section is for guidance only and must be removed from the final document._**<br>
->_Add the link to the [tkapes/sigmas folder](Outputs) within Forensics or link to tkapes/sigmas found on the internet_ <br>
-> _**# Example**_ -> _tkape_ example - https://github.com/EricZimmerman/KapeFiles/blob/master/Targets/Apps/AnyDesk.tkape
-<br>
+https://github.com/ditekshen/detection/blob/master/yara/indicator_tools.yar
+
+```yaml
+rule INDICATOR_TOOL_PROX_revsocks {
+    meta:
+        author = "ditekSHen"
+        description = "Detects revsocks Reverse socks5 tunneler with SSL/TLS and proxy support"
+    strings:
+        $s1 = "main.agentpassword" fullword ascii 
+        $s2 = "main.connectForSocks" fullword ascii 
+        $s3 = "main.connectviaproxy" fullword ascii 
+        $s4 = "main.DnsConnectSocks" fullword ascii 
+        $s5 = "main.listenForAgents" fullword ascii 
+        $s6 = "main.listenForClients" fullword ascii
+        $s7 = "main.getPEMs" fullword ascii
+    condition:
+        (uint16(0) == 0x5a4d or uint16(0) == 0x457f) and 4 of them
+}
+```
+
+https://github.com/SEKOIA-IO/Community/blob/main/yara_rules/tool_revsocks_strings.yar
+
+```yaml
+rule tool_revsocks_strings {
+    meta:
+        id = "f5f34e74-0795-4c81-a385-218a8197a0b7"
+        version = "1.0"
+        description = "Detects revsocks client"
+        author = "Sekoia.io"
+        creation_date = "2024-03-07"
+        classification = "TLP:CLEAR"
+        
+    strings:
+        $ = "reverse socks5 server/client by kost" ascii fullword
+        $ = "github.com/kost/"
+        $ = "revsocks -listen"
+        $ = "Start on the DNS server: revsocks -dns"
+        $ = "crypto/aes."
+        
+    condition:
+        ( uint32be(0) == 0x7f454c46 or 
+          uint16be(0) == 0x4d5a or 
+          uint32be(0) == 0xfeedface or 
+          uint32be(0) == 0xfeedfacf or 
+          uint32be(0) ==  0xcafebabe or
+          uint32be(0) ==  0xCFFAEDFE) and
+        3 of them
+}
+```
+
+```yaml
+title: Suspicious WinSock Provider Enumeration by Non-System Processes
+status: experimental
+description: Detecta procesos que no forman parte del sistema operativo enumerando catálogos de WinSock (AppId_Catalog, Protocol_Catalog9, NameSpace_Catalog5). Actividad típica de proxys inversos, túneles y herramientas como revsocks, ligolo-ng, gost o frp.
+author: Copilot
+date: 2026-03-03
+logsource:
+  product: windows
+  category: registry
+
+detection:
+  winsock_keys:
+    TargetObject|contains:
+      - "\\Services\\WinSock2\\Parameters\\AppId_Catalog"
+      - "\\Services\\WinSock2\\Parameters\\Protocol_Catalog9"
+      - "\\Services\\WinSock2\\Parameters\\NameSpace_Catalog5"
+
+  exclude_system:
+    Image|startswith:
+      - "C:\\Windows\\System32\\"
+      - "C:\\Windows\\SysWOW64\\"
+      - "C:\\Windows\\winsxs\\"
+      - "C:\\Program Files\\WindowsApps\\"
+      - "C:\\Windows\\explorer.exe"
+
+  condition: winsock_keys and not exclude_system
+
+fields:
+  - Image
+  - TargetObject
+  - ProcessId
+  - User
+  - ComputerName
+
+falsepositives:
+  - Software de red legítimo que consulta proveedores WinSock (muy poco habitual).
+  - Herramientas de diagnóstico avanzadas de red.
+level: high
+```
