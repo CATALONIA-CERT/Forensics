@@ -6,15 +6,32 @@
   - [Index](#index)
   - [1. Technical overview](#1-technical-overview)
   - [2. Summary table of artifacts](#2-summary-table-of-artifacts)
+    - [2.a. Disk artifacts](#2a-disk-artifacts)
+    - [2.b. Runtime artifacts](#2b-runtime-artifacts)
   - [3. Installation artifacts](#3-installation-artifacts)
   - [4. Disk artifacts](#4-disk-artifacts)
-    - [4.a. Application Data ](#4a-application-data-)
-    - [4.b. ProgramData / System Folders ](#4b-programdata--system-folders-)
-    - [4.c. Configuration Files ](#4c-configuration-files-)
-    - [4.d. Log Files ](#4d-log-files-)
-    - [4.e. Registry Keys / Preference ](#4e-registry-keys--preference-)
-  - [5.  Runtime artifacts](#5--runtime-artifacts)
-    - [5.a  Artifact name ](#5a--artifact-name-)
+    - [4.a. Execution traces created by the operating system](#4a-execution-traces-created-by-the-operating-system)
+      - [Prefetch](#prefetch)
+      - [Amcache / ShimCache](#amcache--shimcache)
+    - [4.b. Process‑related artifacts](#4b-processrelated-artifacts)
+      - [Process Creation Events (Security Logs)](#process-creation-events-security-logs)
+    - [4.c. PowerShell Telemetry](#4c-powershell-telemetry)
+      - [Script Block Logging](#script-block-logging)
+    - [4.d. Windows Error Reporting (WER)](#4d-windows-error-reporting-wer)
+    - [4.e. Attacker‑created persistence (not part of the tool)](#4e-attackercreated-persistence-not-part-of-the-tool)
+    - [4.f. File System Evidence](#4f-file-system-evidence)
+      - [Recent Files (LNK artifacts)](#recent-files-lnk-artifacts)
+      - [Shadow Copies / Residual Copies](#shadow-copies--residual-copies)
+  - [5. Runtime artifacts](#5-runtime-artifacts)
+    - [5.a  OS Interaction artifacts](#5a--os-interaction-artifacts)
+      - [WinSock provider enumeration](#winsock-provider-enumeration)
+      - [WinSock provider enumeration](#winsock-provider-enumeration-1)
+      - [Networking DLLs loaded in memory](#networking-dlls-loaded-in-memory)
+    - [5.b  Network artifacts](#5b--network-artifacts)
+      - [Long‑lived TCP connection](#longlived-tcp-connection)
+      - [Long‑lived TCP connection](#longlived-tcp-connection-1)
+      - [TLS traffic characteristics (if TLS enabled)](#tls-traffic-characteristics-if-tls-enabled)
+      - [Non‑TLS traffic characteristics (if TLS disabled)](#nontls-traffic-characteristics-if-tls-disabled)
   - [6. Detection rules and collection targets](#6-detection-rules-and-collection-targets)
 
 
@@ -35,7 +52,7 @@ High‑level description of the tool’s purpose, functionality, and operating b
 
 Overview table summarizing the main artifacts, where they reside and what information they contain.
 
-Disk artifacts:
+### 2.a. Disk artifacts
 
 | Source | Artifact | Indicator |
 |------------|----------|-----------|
@@ -46,11 +63,11 @@ Disk artifacts:
 | Attacker-created persistence (not built into the tool) | Multiple | • Rare or unknown services  <br>• Run keys  <br>• Unrecognized scheduled tasks |
 | File system | Bit‑by‑bit disk copy  <br>%APPDATA%\Roaming\Microsoft\Windows\Recent | • Does not write files to the file system  <br>• Does not generate .conf, .json, .ini  <br>• No installers or paths created by the tool  <br>• Copies of the binary may be found in shadow copies or auxiliary scripts  <br>• LNK files may appear in Recent Items referencing the binary |
 
-Runtime artifacts:
+### 2.b. Runtime artifacts
 
 | Source | Artifact | Indicator |
 |------------|----------|-----------|
-| Enumeration of WinSock providers | %SystemRoot%\System32\Config\SYSTEM | HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\WinSock2\Parameters <br> (This is quite characteristic of reverse proxies.) |
+| Enumeration of WinSock providers | %SystemRoot%\System32\Config\SYSTEM | HKLM\SYSTEM\ControlSet001\Services\WinSock2\Parameters <br> (This is quite characteristic of reverse proxies.) |
 | API calls | Memory dump, procdump or EDR | • WSAStartup  <br>• WSAEnumProtocolsW  <br>• WSAGetOverlappedResult |
 | DLLs in memory | Memory dump, procdump or EDR | • WS2_32.dll  <br>• wship6.dll  <br>• wshtcpip.dll  <br>• wshqos.dll <br> (Common in tunneling tools.) |
 | Generic network detection | Memory dump, procdump, EDR, FW, IDS/IPS | Long‑lived TCP connection with:  <br>• Low throughput  <br>• Multiplexed traffic  <br>• Repetitive bytes (Go framing)  <br>• Unusual DNS traffic |
@@ -63,160 +80,239 @@ Not applicable.
 
 
 ## 4. Disk artifacts
+
 Persistent data the tool writes to disk, including configuration files, logs, system files, and other persistent data created.
 
-> **_Template note- This section is for guidance only and must be removed from the final document._**
-> <br>
-> _**# Example entries:**_
-> - _4.a. Application Data_
-> - _4.b. ProgramData / System Folders_
-> - _4.c. Configuration Files_
-> - _4.d. Log Files_
-> - _4.e. Registry Keys / Preference_
+> The tool does not leave characteristic artifacts on disk after shutdown (cold acquisition). It does not write configuration files, does not drop auxiliary components, does not persist itself, and does not patch or modify system files.
+>
+> Therefore, all artifacts below correspond only to execution traces that Windows naturally produces, not to intentional persistence or file creation by the tool.
 
-<br>
+### 4.a. Execution traces created by the operating system
 
+#### Prefetch
 
-### <mark style="background-color:yellow;">4.a. Application Data </mark>
-
-* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
-
-_Description of artifact function and evidence value_
-<br>
-> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+Windows Prefetch records execution metadata of binaries launched from disk. Although the tool does not persist, launching the binary normally generates a .pf file unless Prefetching is disabled.
 
 ```
-Artifact location/path
+C:\Windows\Prefetch\
 ```
 
-> **What to look for?**
+**What to look for?**
 
-To extract _XXXXX details_, search for the following `strings`
+- Executable name
+- Execution path (useful to determine where the binary was run from)
+- Execution count
+- Last execution timestamp
 
-* _**# Example**_ -> User interface **logging** -> `Logged in`
+#### Amcache / ShimCache
 
-```
-_Relevant log entries_
-```
-
-* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
-
-```
-_Relevant log entries_
-```
-
-### <mark style="background-color:yellow;">4.b. ProgramData / System Folders </mark>
-
-* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
-
-_Description of artifact function and evidence value_
-<br>
-> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+Amcache and ShimCache record historical execution information for PE files, including program path and cryptographic hashes.
 
 ```
-Artifact location/path
+C:\Windows\AppCompat\Programs\Amcache.hve
+SYSTEM hive → ...\AppCompatCache
 ```
 
-> **What to look for?**
+**What to look for?**
 
-To extract _XXXXX details_, search for the following `strings`
+- File path used at execution time
+- SHA‑1 hash
+- Last modification timestamps
+- Evidence of execution even if file no longer exists
 
-* _**# Example**_ -> User interface **logging** -> `Logged in`
+### 4.b. Process‑related artifacts
 
-```
-_Relevant log entries_
-```
+#### Process Creation Events (Security Logs)
 
-* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
-
-```
-_Relevant log entries_
-```
-
-### <mark style="background-color:yellow;">4.c. Configuration Files </mark>
-
-Not applicable
-
-### <mark style="background-color:yellow;">4.d. Log Files </mark>
-
-Not applicable
-
-### <mark style="background-color:yellow;">4.e. Registry Keys / Preference </mark>
-
-* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
-
-_Description of artifact function and evidence value_
-<br>
-> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+Windows logs new process creation when auditing is enabled. The tool’s execution will appear as a standard process creation event: Event ID 4688
 
 ```
-Artifact location/path
+C:\Windows\System32\winevt\Logs\Security.evtx
 ```
 
-> **What to look for?**
+**What to look for?**
 
-To extract _XXXXX details_, search for the following `strings`
+- Parent process (e.g., explorer.exe, cmd.exe, powershell.exe)
+- Full command line
+- Process ID mapping
+- Execution path
 
-* _**# Example**_ -> User interface **logging** -> `Logged in`
+### 4.c. PowerShell Telemetry
+
+(Only if launched through PowerShell or if PowerShell was used around the time of execution)
+
+#### Script Block Logging
+
+If ScriptBlockLogging (4104) or Transcription is enabled, commands and parameters used to invoke the binary may appear in the PowerShell Operational Log.
 
 ```
-_Relevant log entries_
+C:\Windows\System32\winevt\Logs\Microsoft-Windows-PowerShell/Operational.evtx
 ```
 
-* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
+**What to look for?**
+
+- PowerShell invocation of the binary
+- Command‑line arguments
+- Operator activity before/after execution
+
+### 4.d. Windows Error Reporting (WER)
+
+If the binary crashes or is forcibly terminated, Windows Error Reporting generates diagnostic bundles.
 
 ```
-_Relevant log entries_
+C:\ProgramData\Microsoft\Windows\WER\ReportArchive\
+C:\Users\<USER>\AppData\Local\Microsoft\Windows\WER\ReportArchive\
 ```
 
-***
-<br>
+**What to look for?**
 
+- Crash dumps (if generated)
+- Faulting module name
+- Execution timestamp
+- System metadata tied to the execution event
 
-<a id="runtime-artifacts"></a>
-## <mark style="color:$primary;">5.</mark>  Runtime artifacts
+### 4.e. Attacker‑created persistence (not part of the tool)
+
+The tool itself does not create persistence, but an attacker may create manual persistence around it.
+
+Potential locations include:
+```
+HKCU/HKLM Run keys
+Scheduled Tasks (C:\Windows\System32\Tasks\)
+New services created using sc.exe or PowerShell
+```
+
+**What to look for?**
+
+Recently created services with unusual names
+Run keys pointing to non‑signed or temporary binaries
+Suspicious scheduled tasks with unexpected triggers
+
+### 4.f. File System Evidence
+
+(No persistent artifacts, but OS traces may remain)
+
+#### Recent Files (LNK artifacts)
+
+If ScriptBlockLogging (4104) or Transcription is enabled, commands and parameters used to invoke the binary may appear in the PowerShell Operational Log.
+
+```
+C:\Windows\System32\winevt\Logs\Microsoft-Windows-PowerShell/Operational.evtx
+```
+
+**What to look for?**
+
+- PowerShell invocation of the binary
+- Command‑line arguments
+- Operator activity before/after execution
+
+#### Shadow Copies / Residual Copies
+
+Copies of the binary may remain in restore points or shadow copies even if deleted afterward.
+
+(No fixed path — browse via vssadmin / forensic mounts)
+
+**What to look for?**
+
+- Copies of the binary in user directories
+- Operator tool staging areas
+
+## 5. Runtime artifacts
 Evidence produced during the tool’s execution, such as processes, network connections, session activity, temporary files, and other live data.
-> **_Template note- This section is for guidance only and must be removed from the final document._**
-> <br>
-> _**# Example entries:**_
-> - _5.a. Services / Daemons_
-> - _5.b. Network Activity_
-> - _5.c. Client–Server Communication_
-> - _5.d. Remote Session Traces_
 
-<br>
+> Runtime analysis reveals clear, distinctive behavioral indicators produced by this tool.
 
-### <mark style="background-color:yellow;">5.a  Artifact name </mark>
+### 5.a  OS Interaction artifacts
 
-* #### <mark style="color:$info;background-color:yellow;"> Sub-artifact name </mark>
+#### WinSock provider enumeration
 
-_Description of artifact function and evidence value_
-<br>
-> _**# Example**_ - Related to printer installation, by default AnyDesk installs a printer driver during setup. The directory indicates the user account that triggered the installation.
+The tool performs read‑only enumeration of WinSock provider catalogs to understand the available transport protocols — a behavior strongly associated with tunneling and reverse SOCKS agents.
+
+```
+C:\Windows\System32\Config\SYSTEM
+HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Services\WinSock2\Parameters
+```
+
+**What to look for?**
+
+- Repeated reads of AppId_Catalog, Protocol_Catalog9, NameSpace_Catalog5
+- Queries occurring immediately after process startup
+- No modifications — enumeration only
+
+#### WinSock provider enumeration
+
+A distinctive sequence of WinSock API calls is observed during initialization. This pattern clearly differs from standard applications and is typical of custom tunneling frameworks.
+
+```
+WSAStartup
+WSAEnumProtocolsW
+WSAGetOverlappedResult
+```
+
+**What to look for?**
+- Telemetry showing enumeration of WSAPROTOCOL_INFO structures
+- No involvement of persistence‑related APIs
+- High density of networking API calls during early runtime
+
+#### Networking DLLs loaded in memory
+
+The tool dynamically loads standard Windows DLLs required for socket operations. The combination is consistent with custom network tunneling.
+
+```
+WS2_32.dll
+wship6.dll
+wshtcpip.dll
+wshqos.dll
+```
+
+**What to look for?**
+- DLL load order characteristic of custom sockets initialization
+- Absence of dropped or injected DLLs
+- Presence of memory structures tied to stream‑multiplexing logic
+
+### 5.b  Network artifacts
+
+#### Long‑lived TCP connection
+
+The tool establishes a persistent TCP session acting as a multiplexed reverse tunnel.
 
 ```
 Artifact location/path
 ```
 
-> **What to look for?**
+**What to look for?**
+- One long‑duration TCP connection to a remote operator
+- Low but steady throughput
+- Evidence of multiple logical channels over a single TCP socket
+- Repetitive Go framing bytes
 
-To extract _XXXXX details_, search for the following `strings`
+#### Long‑lived TCP connection
 
-* _**# Example**_ -> User interface **logging** -> `Logged in`
+The tool establishes a persistent TCP session acting as a multiplexed reverse tunnel.
 
-```
-_Relevant log entries_
-```
+**What to look for?**
+- One long‑duration TCP connection to a remote operator
+- Low but steady throughput
+- Evidence of multiple logical channels over a single TCP socket
+- Repetitive Go framing bytes
 
-* _**# Example**_ -> **External IP** and local host **Client ID** -> `External address`
+#### TLS traffic characteristics (if TLS enabled)
 
-```
-_Relevant log entries_
-```
+TLS handshakes reveal a non‑standard client fingerprint.
 
-***
-<br>
+**What to look for?**
+- Recently issued Let's Encrypt certificates
+- Custom or unexpected SNI
+- ALPN missing common values (no h2, no http/1.1)
 
+#### Non‑TLS traffic characteristics (if TLS disabled)
+
+Without encryption, the tool's internal multiplexing protocol becomes visible.
+
+**What to look for?**
+- First packet does not match SOCKS5 handshake
+- protobuf‑based serialization (varints, field tags)
+- Channel IDs indicating multiple streams on a single TCP session
 
 
 ## 6. Detection rules and collection targets
