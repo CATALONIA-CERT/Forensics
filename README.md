@@ -2,7 +2,7 @@
 
 Welcome to the **CATALONIA-CERT Forensics Documentation**.
 
-This GitBook is designed as a practical reference for security analysts, incident responders, and digital forensics teams. Its primary objective is to systematically **document the artifacts, traces and indicators** left behind by tools, techniques, and procedures commonly observed during security incidents and intrusions.
+This repository is designed as a practical reference for security analysts, incident responders, and digital forensics teams. Its primary objective is to systematically **document the artifacts, traces and indicators** left behind by tools, techniques, and procedures commonly observed during security incidents and intrusions.
 
 The content is organized to provide structured, repeatable, and actionable information that supports detection, investigation, and post-incident analysis.
 
