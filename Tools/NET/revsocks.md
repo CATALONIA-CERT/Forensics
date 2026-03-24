@@ -177,6 +177,6 @@ Without encryption, the tool's internal multiplexing protocol becomes visible.
 
 This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with revsocks.
 
-- [revsocks.yar (CATALONIA-CERT)](../../Outputs/sigmas/revsocks.yar)
+- [revsocks.yml (CATALONIA-CERT)](../../Outputs/sigmas/revsocks.yml)
 - [indicator_tools.yar (ditekshen)](https://github.com/ditekshen/detection/blob/master/yara/indicator_tools.yar)
 - [tool_revsocks_strings.yar (SEKOIA-IO)](https://github.com/SEKOIA-IO/Community/blob/main/yara_rules/tool_revsocks_strings.yar)
