@@ -1,27 +1,21 @@
 # Revsocks
 
-## Index
-
 - [Revsocks](#revsocks)
-  - [Index](#index)
   - [1. Technical overview](#1-technical-overview)
   - [2. Summary table of artifacts](#2-summary-table-of-artifacts)
-    - [2.a. Disk artifacts](#2a-disk-artifacts)
-    - [2.b. Runtime artifacts](#2b-runtime-artifacts)
-  - [3. Installation artifacts](#3-installation-artifacts)
-  - [4. Disk artifacts](#4-disk-artifacts)
-  - [5. Runtime artifacts](#5-runtime-artifacts)
-    - [5.a  OS Interaction artifacts](#5a--os-interaction-artifacts)
+  - [3. Non-volatile artifacts](#3-non-volatile-artifacts)
+  - [3.a Installation artifacts](#3a-installation-artifacts)
+  - [4. Volatile artifacts](#4-volatile-artifacts)
+    - [4.a OS Interaction artifacts](#4a-os-interaction-artifacts)
       - [WinSock provider enumeration](#winsock-provider-enumeration)
       - [WinSock provider enumeration](#winsock-provider-enumeration-1)
       - [Networking DLLs loaded in memory](#networking-dlls-loaded-in-memory)
-    - [5.b  Network artifacts](#5b--network-artifacts)
+    - [4.b  Network artifacts](#4b--network-artifacts)
       - [Long‑lived TCP connection](#longlived-tcp-connection)
       - [Long‑lived TCP connection](#longlived-tcp-connection-1)
       - [TLS traffic characteristics (if TLS enabled)](#tls-traffic-characteristics-if-tls-enabled)
       - [Non‑TLS traffic characteristics (if TLS disabled)](#nontls-traffic-characteristics-if-tls-disabled)
-  - [6. Detection rules and collection targets](#6-detection-rules-and-collection-targets)
-
+  - [5. Detection rules and collection targets](#5-detection-rules-and-collection-targets)
 
 ## 1. Technical overview
 
@@ -40,7 +34,7 @@ High‑level description of the tool’s purpose, functionality, and operating b
 
 Overview table summarizing the main artifacts, where they reside and what information they contain.
 
-### 2.a. Disk artifacts
+Non-volatile artifacts:
 
 | Source | Artifact | Indicator |
 |------------|----------|-----------|
@@ -51,7 +45,7 @@ Overview table summarizing the main artifacts, where they reside and what inform
 | Attacker-created persistence (not built into the tool) | Multiple | • Rare or unknown services  <br>• Run keys  <br>• Unrecognized scheduled tasks |
 | File system | Bit‑by‑bit disk copy  <br>%APPDATA%\Roaming\Microsoft\Windows\Recent | • Does not write files to the file system  <br>• Does not generate .conf, .json, .ini  <br>• No installers or paths created by the tool  <br>• Copies of the binary may be found in shadow copies or auxiliary scripts  <br>• LNK files may appear in Recent Items referencing the binary |
 
-### 2.b. Runtime artifacts
+Volatile artifacts:
 
 | Source | Artifact | Indicator |
 |------------|----------|-----------|
@@ -62,12 +56,7 @@ Overview table summarizing the main artifacts, where they reside and what inform
 | Detection of TLS network traffic | Memory dump, procdump, EDR, FW, IDS/IPS | • Recently issued Let's Encrypt certificates  <br>• Customized SNI  <br>• ALPN not typical (h2, http/1.1) |
 | Detection of non‑TLS network traffic | Memory dump, procdump, EDR, FW, IDS/IPS | • First bytes do not match standard SOCKS5 handshake  <br>• protobuf sequences observed  <br>• Multiplexed channels with channel ID |
 
-
-## 3. Installation artifacts
-Not applicable.
-
-
-## 4. Disk artifacts
+## 3. Non-volatile artifacts
 
 Persistent data the tool writes to disk, including configuration files, logs, system files, and other persistent data created.
 
@@ -75,12 +64,15 @@ Persistent data the tool writes to disk, including configuration files, logs, sy
 >
 > Therefore, you can find [here](../README.md) a guide of traces that Windows naturally produces, not to intentional persistence or file creation by the tool.
 
-## 5. Runtime artifacts
+## 3.a Installation artifacts
+Not applicable.
+
+## 4. Volatile artifacts
 Evidence produced during the tool’s execution, such as processes, network connections, session activity, temporary files, and other live data.
 
 > Runtime analysis reveals clear, distinctive behavioral indicators produced by this tool.
 
-### 5.a  OS Interaction artifacts
+### 4.a OS Interaction artifacts
 
 #### WinSock provider enumeration
 
@@ -128,7 +120,7 @@ wshqos.dll
 - Absence of dropped or injected DLLs
 - Presence of memory structures tied to stream‑multiplexing logic
 
-### 5.b  Network artifacts
+### 4.b  Network artifacts
 
 #### Long‑lived TCP connection
 
@@ -173,7 +165,7 @@ Without encryption, the tool's internal multiplexing protocol becomes visible.
 - Channel IDs indicating multiple streams on a single TCP session
 
 
-## 6. Detection rules and collection targets
+## 5. Detection rules and collection targets
 
 This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with revsocks.
 
