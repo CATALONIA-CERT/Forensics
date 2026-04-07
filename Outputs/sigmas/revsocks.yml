@@ -1,6 +1,6 @@
 title: Suspicious WinSock Provider Enumeration by Non-System Processes
 status: experimental
-description: Detecta procesos que no forman parte del sistema operativo enumerando catálogos de WinSock (AppId_Catalog, Protocol_Catalog9, NameSpace_Catalog5). Actividad típica de proxys inversos, túneles y herramientas como revsocks, ligolo-ng, gost o frp.
+description: Detects non-system processes enumerating Winsock cataloges (AppId_Catalog, Protocol_Catalog9, NameSpace_Catalog5). Actividad típica de proxys inversos, túneles y herramientas como revsocks, ligolo-ng, gost o frp.
 date: 2026-03-03
 logsource:
   product: windows
@@ -31,6 +31,6 @@ fields:
   - ComputerName
 
 falsepositives:
-  - Software de red legítimo que consulta proveedores WinSock (muy poco habitual).
-  - Herramientas de diagnóstico avanzadas de red.
+  - Network software querying Winsock providers (rare).
+  - Advanced network diagnostic tools.
 level: high
