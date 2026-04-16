@@ -31,7 +31,7 @@ Non-volatile artifacts:
 | Process events | %SystemRoot%\System32\winevt\Logs\Security<br> %SystemRoot%\System32\winevt\Logs\SYSMON | Event ID 4688 (A new process has been created PSEXECSVC.exe) <br> Event ID 1 (Process creation PSEXESVC.exe)<br> |
 | Service events | %SystemRoot%\System32\winevt\Logs\System <br> %SystemRoot%\System32\winevt\Logs\Security | Event ID 7045 (By default ServiceName: PSEXESVC) |
 | Lateral Movment | %SystemRoot%\System32\winevt\Logs\Security | Event ID 4624 (Successful logon) <br>Event ID 5140  (A network share object was accessed) |
-| Registry | HKLM\System\CurrentControlSet\Services |   (By default ServiceName: PSEXESVC) |
+| Registry | HKLM\System\CurrentControlSet\Services | By default Key name: PSEXESVC |
 | File system | %SystemRoot%\System32\winevt\Logs\SYSMON <br>C:\Windows\Tasks <br> C:\Windows\System32\Tasks|  Event ID 11 (TargetFilename is PSEXESVC.exe) <br>   Job files created in <br>  XML task files created in|
 
 Volatile artifacts:
