@@ -8,7 +8,7 @@
     - [4.a OS Interaction artifacts](#4a-os-interaction-artifacts)
     - [4.b  Network artifacts](#4b--network-artifacts)
   - [5. Detection rules and collection targets](#5-detection-rules-and-collection-targets)
-- [SIGMA rules](#sigma-rules)
+    - [SIGMA rules](#sigma-rules)
     - [Other rules](#other-rules)
     - [AV Detection](#av-detection)
   - [6. References](#6-references)
@@ -118,7 +118,7 @@ timeline
 
 This section documents the **files and rules** generated to enhance forensic analysis of AnyDesk activity. These detection artifacts are designed to identify suspicious behaviors, unauthorized remote access attempts, and persistence mechanisms associated with evil-winrm.
 
-# SIGMA rules
+### SIGMA rules
 - https://github.com/CATALONIA-CERT/Forensics/blob/main/Outputs/sigmas/evil-winrm-UA.yml
 - https://github.com/CATALONIA-CERT/Forensics/blob/main/Outputs/sigmas/evil-winrm-pwsh.yml
 - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/powershell/powershell_module/posh_pm_hktl_evil_winrm_execution.yml
