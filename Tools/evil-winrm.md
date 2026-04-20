@@ -127,7 +127,6 @@ This section documents the **files and rules** generated to enhance forensic ana
 
 YARA rule - UA:
 ```yara
-
 rule Evil_WinRM_Ruby_UserAgent
 {
     meta:
@@ -145,12 +144,10 @@ rule Evil_WinRM_Ruby_UserAgent
     condition:
         $ua and $wsman
 }
-
 ```
 
 SNORT rule - UA:
 ```snort
-
 alert http any any -> any 5985 (
     msg:"WINRM Evil-WinRM User-Agent detected (Ruby WinRM Client)";
     flow:to_server,established;
@@ -169,7 +166,6 @@ alert http any any -> any 5986 (
     sid:4200011;
     rev:1;
 )
-
 ```
 
 ### AV Detection
