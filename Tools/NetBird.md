@@ -21,7 +21,7 @@
 - [5. Detection rules and collection targets](#5-detection-rules-and-collection-targets)
 - [6. References](#6-references)
 
-# 1. Technical overview
+## 1. Technical overview
 
 High‑level description of the tool’s purpose, functionality, and operating behavior.
 
@@ -35,8 +35,8 @@ High‑level description of the tool’s purpose, functionality, and operating b
 
 
 
-# 2. Summary table of artifacts
-## 2.1 Windows
+## 2. Summary table of artifacts
+### 2.1 Windows
 Overview table summarizing the main artifacts, where they reside and what information they contain.
 
 Non-volatile Artifacts:
@@ -58,7 +58,7 @@ Volatile Artifacts:
 | Loaded modules | Memory dump / Process Information | • `wintun.dll`: Layer 3 tunneling library |
 | Network Interfaces | Memory dump / Networking Information | • 100.0.0.0/8: Interfaces using subranges of this subrange<br> |
 
-## 2.2 Linux
+### 2.2 Linux
 
 Non-volatile Artifacts:
 
@@ -73,13 +73,13 @@ Non-volatile Artifacts:
 | Loaded modules | Memory dump / Process Information | • `wintun.dll`: Layer 3 tunneling library |
 
 
-# 3. Non-Volatile Artifacts
+## 3. Non-Volatile Artifacts
 
 When NetBird is installed with the official installer, by default it installs itself in the program files folder and creates various services in order to work.
 Although it does not offer a portable version, the NetBird executable can be imported along the *wintun* dynamic library and run by themselves, avoiding the noise created by the installation, which makes the activity significantly more difficult to identify as NetBird.
-## 3.1 Windows
+### 3.1 Windows
 
-### 3.1.1 NetBird Logs
+#### 3.1.1 NetBird Logs
 During its execution, NetBird creates various kinds of logs in its `client.log` file. The information includes relevant information like authentication type, NetBird servers, connections between peers, and more.
 
 **Artifacts:**
@@ -138,7 +138,7 @@ Failed routed connection through a client towards an internal network
 2026-01-02T13:56:57+00:00 ERRO proxyTCP: copy error (out → in) for 100.124.208.107:50831 → 10.66.0.35:48086: writeto tcp 10.66.0.10:57525->10.66.0.35:48086: read tcp 10.66.0.10:57525->10.66.0.35:48086: wsarecv: An existing connection was forcibly closed by the remote host.
 ```
 
-### 3.1.2. 3.1.2 NetBird Configuration
+#### 3.1.2. 3.1.2 NetBird Configuration
 The configuration of the default profile can be found inside default.json, but the user can create several profiles with different configurations.
 
 
@@ -191,7 +191,7 @@ Email of the user used in the last session:
 {"email": "********@********.***"}
 ```
 
-### 3.1.3 Windows System Event Logs
+#### 3.1.3 Windows System Event Logs
 The installation of NetBird creates two new services on the system, which generates System events with id 7045.
 
 **Artifacts:**
@@ -217,7 +217,7 @@ Service Account:  LocalSystem
 ```
 
 
-### 3.1.4 Windows Firewall Event Logs
+#### 3.1.4 Windows Firewall Event Logs
 NetBird creates and modifies firewall 
 
 **Artifacts:**
@@ -238,7 +238,7 @@ Added Rule:
 
 ```
 
-### 3.1.5 Windows RDP Event Logs
+#### 3.1.5 Windows RDP Event Logs
 The event shows as a standard RDP connection log. IP will be from the range used by NetBird (100.124.0.0/16 by default). Also can be linked to a tunnel created on the client.log file
 
 **Artifacts:**
@@ -254,7 +254,7 @@ Domain: *****
 Source Network Address: 100.124.208.107
 ```
 
-### 3.1.6 Sysmon
+#### 3.1.6 Sysmon
 In case sysmon is enabled, it is possible to extract relevant information about the NetBird session and, in some cases, recover the email of the NetBird user:
 
 **Artifacts:**
@@ -267,8 +267,8 @@ CommandLine: rundll32 url.dll,FileProtocolHandler https://login.netbird.io/autho
 ParentCommandLine: "C:\Program Files\Netbird\Netbird-ui.exe" 0
 ...
 ```
-## 3.2 Linux
-### 3.2.1 NetBird Logs and Configuration
+### 3.2 Linux
+#### 3.2.1 NetBird Logs and Configuration
 The configuration and log files on linux have the same contents than the ones found on Windows. 
 
 **Artifacts:**
@@ -280,7 +280,7 @@ The configuration and log files on linux have the same contents than the ones fo
  - [NetBird Logs](#311-netbird-logs)
  - [NetBird Configuration](#312-312-netbird-configuration)
 
-### 3.2.2 Services
+#### 3.2.2 Services
 After installation, Netbird runs as a service and, as such, it leaves traces on the file system.
 
 **Artifacts:**
@@ -308,7 +308,7 @@ Environment=SYSTEMD_UNIT=netbird
 WantedBy=multi-user.target"
 ```
 
-### 3.2.3 Package sources / repos
+#### 3.2.3 Package sources / repos
 The official method is used to install the service (https://docs.netbird.io/get-started/install/linux), adds a new source / repo added to the system pointing to the domain pkgs.netbird.io. The location of the new source depends on the OS and package manager:
 
 **Artifacts:**
@@ -320,7 +320,7 @@ The official method is used to install the service (https://docs.netbird.io/get-
 **Indicators:**
  - `pkgs.netbird.io`
 
-### 3.2.4 System Configurations
+#### 3.2.4 System Configurations
 When installed, NetBird also adds its own configuration in order to properly work on the system:
 
 **Artifacts:**
@@ -344,8 +344,8 @@ LogLevel ERROR
 ```
  - Network:
 ```
-# Created by NetBird to prevent systemd-networkd from removing
-# routes and policy rules managed by NetBird.
+## Created by NetBird to prevent systemd-networkd from removing
+## routes and policy rules managed by NetBird.
 
 [Network]
 ManageForeignRoutes=no
@@ -353,7 +353,7 @@ ManageForeignRoutingPolicyRules=no
 ```
 
 
-### 3.2.5 System Logs
+#### 3.2.5 System Logs
 Similarly than RDP on Windows, SSH can be used to remotely access machines running the NetBird service using NedBird's web panel or an ssh connection from another machine running NetBird with visibility to the target machine. 
 
 SSH logins from NetBird IPs can be identified on the auth/secure log.
@@ -365,13 +365,13 @@ SSH logins from NetBird IPs can be identified on the auth/secure log.
 **Indicators:**
  - `2026-01-05T11:38:58.508642+01:00 UBDK login[251678]: ROOT LOGIN on '/dev/pts/1' from '100.124.35.65'`
 
-# 4. Volatile Artifacts
+## 4. Volatile Artifacts
 N/A
 
-# 5. Detection rules and collection targets
+## 5. Detection rules and collection targets
 - [NetBird.tkape (CATALONIA-CERT)](https://github.com/CATALONIA-CERT/Forensics/blob/main/Outputs/tkapes/Netbird.tkape)
 
-# 6. References
+## 6. References
 
 1. https://docs.netbird.io/manage/activity
 2. https://docs.netbird.io/get-started/cli
