@@ -1,14 +1,18 @@
 # Urban-VPN
 
-- [Urban-VPN](#urban-vpn)
 - [1. Technical overview](#1-technical-overview)
 - [2. Summary table of artifacts](#2-summary-table-of-artifacts)
+  - [2.1. Non‑volatile artifacts](#21-nonvolatile-artifacts)
 - [3. Non-volatile artifacts](#3-non-volatile-artifacts)
-  - [3.1 Registry artifacts](#31-registry-artifacts)
-  - [3.2 Services and drivers](#32-services-and-drivers)
-  - [3.3 File system artifacts](#33-file-system-artifacts)
-  - [3.4 Browser extensions](#34-browser-extensions)
+  - [3.a Registry artifacts](#3a-registry-artifacts)
+  - [3.b Services and drivers](#3b-services-and-drivers)
+  - [3.c File system artifacts](#3c-file-system-artifacts)
+  - [3.d Browser extensions](#3d-browser-extensions)
 - [4. Volatile / network artifacts](#4-volatile--network-artifacts)
+  - [4.a Local proxy usage](#4a-local-proxy-usage)
+  - [4.b HTTP proxy headers](#4b-http-proxy-headers)
+- [5. Detection rules and collection targets](#5-detection-rules-and-collection-targets)
+- [6. References](#6-references)
 
 ---
 
@@ -22,7 +26,7 @@ The tool is typically used to anonymize user traffic, but from a forensic perspe
 
 ## 2. Summary table of artifacts
 
-### Non‑volatile artifacts
+### 2.1. Non‑volatile artifacts
 
 | Mode | Source | Artifact | Description |
 |----|----|----|----|
@@ -37,7 +41,7 @@ The tool is typically used to anonymize user traffic, but from a forensic perspe
 
 ## 3. Non-volatile artifacts
 
-### 3.1 Registry artifacts
+### 3.a Registry artifacts
 
 Registry keys created during installation of the Urban-VPN Windows application:
 
@@ -64,7 +68,7 @@ HKLM\SOFTWARE\Caphyon\Advanced Installer
 
 ---
 
-### 3.2 Services and drivers
+### 3.b Services and drivers
 
 The Windows application uses OpenVPN to create the network tunnels, which in turn uses the tap0901 driver. Multiple artifacts related to OpenVPN, including drivers, Services and configuration changes related to OpenVPN can be identified after Urban-VPN installation.
 
@@ -93,7 +97,7 @@ HKLM\SYSTEM\ControlSet001\Services\UrbanVPN-Updater
 
 ---
 
-### 3.3 File system artifacts
+### 3.c File system artifacts
 
 Common directories created during installation and execution of the Windows application:
 
@@ -109,7 +113,7 @@ These locations may contain binaries, configuration files, logs, and runtime sta
 
 ---
 
-### 3.4 Browser extensions
+### 3.d Browser extensions
 
 Urban VPN offers several different browser extensions for Chromium based browsers. The following **Chromium-based extension IDs** have been identified as belonging to **Urban‑VPN or Urban Cyber Security–related browser components**, including VPN, ad blocking, browser protection, and traffic routing functionality.
 
@@ -222,7 +226,7 @@ C:\Users\<USER>\AppData\Local\Yandex\YandexBrowser\User Data\Default\Extensions\
 
 ## 4. Volatile / network artifacts
 
-### Local proxy usage
+### 4.a Local proxy usage
 
 Browser extensions route traffic through a local proxy service using the following port:
 
@@ -231,7 +235,7 @@ Browser extensions route traffic through a local proxy service using the followi
 ```
 Part of the traffic doesn't get encrypted, making it possible to partially recover some of the visited URLs.
 
-### HTTP proxy headers
+### 4.b HTTP proxy headers
 
 When operating without authenticated user credentials, the following header is observed:
 
@@ -240,3 +244,17 @@ Proxy-Authorization: Basic SzRNbndkSFBNRnJqb181c1lxRDNmQk5uNU5RYmxEZGtKN2R0amJQZ
 ```
 
 This header indicates proxy‑based traffic routing and can be used to identify Urban‑VPN traffic during network capture and analysis (The Contents of the header are subject to change.)
+
+## 5. Detection rules and collection targets
+N/A
+
+## 6. References
+ - https://www.urban-vpn.com/
+ - https://chromewebstore.google.com/detail/urban-browser-guard/almalgbpmcfpdaopimbdchdliminoign
+ - https://chromewebstore.google.com/detail/urban-vpn-proxy/eppiocemhmnlbhjplcgkofciiegomcon
+ - https://chromewebstore.google.com/detail/urban-adblocker/feflcgofneboehfdeebcfglbodaceghj
+ - https://chromewebstore.google.com/detail/urban-safe-browsing/efbobpikdmjaaklfkdlgfopochnjadab
+ - https://microsoftedge.microsoft.com/addons/detail/urban-vpn-proxy/nimlmejbmnecnaghgmbahmbaddhjbecg
+ - https://microsoftedge.microsoft.com/addons/detail/urban-browser-guard/jckkfbfmofganecnnpfndfjifnimpcel
+ - https://microsoftedge.microsoft.com/addons/detail/urban-adblocker/gcogpdjkkamgkakkjgeefgpcheonclca
+ - https://microsoftedge.microsoft.com/addons/detail/urban-safe-browsing/gemndobjhbcgnpbennkdglahpppmieea
