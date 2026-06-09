@@ -1,0 +1,25 @@
+title: Evil-WinRM User-Agent Detected
+id: 94f1adbe-6c1a-4aa4-9f65-evilwinrm-ua
+status: experimental
+description: |
+  Detects HTTP requests with User-Agent indicating Evil-WinRM
+author: Blue Team
+date: 2026-04-16
+references:
+  - https://medium.com/@cY83rR0H1t/evil-winrm-detection-de2874af7eb0
+  - https://detect.fyi/detection-of-evil-winrm-8941eedc586d
+logsource:
+  category: proxy
+  product: windows
+detection:
+  selection:
+    http_user_agent|contains:
+      - "Ruby WinRM Client"
+  condition: selection
+falsepositives:
+  - Custom Ruby-based WinRM automation (rare)
+level: high
+tags:
+  - attack.lateral_movement
+  - attack.t1021.006
+  - attack.execution

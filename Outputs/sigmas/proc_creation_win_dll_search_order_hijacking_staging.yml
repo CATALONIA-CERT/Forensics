@@ -1,0 +1,64 @@
+title: DLL Search Order Hijacking - System DLL Cloning and Staging
+id: 7e3d9c1f-4a82-4b17-a301-c8f2e5b647d3
+status: experimental
+description: >
+  Detects the DLL Search Order Hijacking (T1574.001) staging pattern in which a
+  threat actor copies a legitimate system DLL, renames it to a hijackable DLL name,
+  and places it in both a user-writable directory and System32. The technique is
+  used to cause a target process to load an attacker-controlled DLL in place of the
+  legitimate one by exploiting Windows DLL search order precedence.
+  Observed in a controlled lab execution of Atomic Red Team T1574.001 on
+  DESKTOP-B8BTDLH (2026-06-04). The specific variant copies amsi.dll and renames it
+  to WinAppXRT.dll or ualapi.dll.
+date: 2026-06-04
+author: CATALONIA-CERT
+references:
+  - internal
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+  - attack.defense_evasion
+  - attack.t1574.001
+logsource:
+  category: process_creation
+  product: windows
+detection:
+  selection_copy_rename:
+    Image|endswith: '\cmd.exe'
+    CommandLine|contains|all:
+      - 'copy'
+      - 'amsi.dll'
+      - 'ren'
+  selection_winappxrt:
+    Image|endswith: '\cmd.exe'
+    CommandLine|contains:
+      - 'WinAppXRT.dll'
+  selection_ualapi:
+    Image|endswith: '\cmd.exe'
+    CommandLine|contains:
+      - 'ualapi.dll'
+  selection_appx_env:
+    Image|endswith: '\reg.exe'
+    CommandLine|contains|all:
+      - 'HKEY_CURRENT_USER\Environment'
+      - 'APPX_PROCESS'
+  selection_spooler_enable:
+    Image|endswith: '\sc.exe'
+    CommandLine|contains|all:
+      - 'Spooler'
+      - 'start=auto'
+  condition: selection_copy_rename or selection_winappxrt or selection_ualapi or selection_appx_env or selection_spooler_enable
+fields:
+  - Image
+  - CommandLine
+  - ParentImage
+  - User
+  - IntegrityLevel
+  - CurrentDirectory
+  - ProcessId
+  - ParentProcessId
+falsepositives:
+  - No legitimate scenario is known where cmd.exe copies and renames amsi.dll to another DLL name
+  - APPX_PROCESS environment variable modification may occur during Windows AppX debugging (very rare)
+  - sc config Spooler may be set legitimately by printing software (use in combination with DLL placement)
+level: high

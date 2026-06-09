@@ -1,0 +1,11 @@
+Description: Getscreen.me Logs Collection
+Author: CATALONIA-CERT
+Version: 1.0
+Id: 8505fb03-78e5-42fe-86f5-b955d4a6e92b
+Targets:
+  - Name: Getscreen Logs
+    Category: RemoteAccess
+    Path: C:\ProgramData\Getscreen.me\logs
+    Recursive: true
+    FileMask: '*'
+    Comment: Collects all Getscreen GUI and service logs including session, connections, exfiltration, and configuration artifacts

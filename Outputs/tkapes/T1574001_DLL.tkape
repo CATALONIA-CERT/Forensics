@@ -1,0 +1,29 @@
+Description: DLL Search Order Hijacking (T1574.001) - Forensic Evidence Collection
+Author: CATALONIA-CERT
+Version: 1.0
+Id: b1c7d4e9-3a56-4f82-9e01-d7c8f2a1b305
+RecreateDirectories: true
+Targets:
+    -
+        Name: AppData Roaming DLL Artifacts
+        Category: FileSytem
+        Path: C:\Users\*\AppData\Roaming\
+        FileMask: "*.dll"
+        Recursive: false
+        Comment: "Collects DLL files staged in user AppData Roaming directory. Primary placement location for T1574.001 rogue DLLs (e.g., WinAppXRT.dll, ualapi.dll). Files may be deleted post-execution; USN Journal entries persist."
+
+    -
+        Name: AppData Local Temp Executables and DLLs
+        Category: FileSytem
+        Path: C:\Users\*\AppData\Local\Temp\
+        FileMask: "*.exe"
+        Recursive: false
+        Comment: "Collects executables downloaded as part of T1574.001 hijacking scenarios (e.g., KeyScrambler_Setup.exe, KeyScrambler.exe). Download staging location for third-party DLL hijacking tools."
+
+    -
+        Name: AppData Local Temp DLLs
+        Category: FileSytem
+        Path: C:\Users\*\AppData\Local\Temp\
+        FileMask: "*.dll"
+        Recursive: false
+        Comment: "Collects DLL files in user Temp directory - may contain staged hijacking payloads prior to placement in target directory."
