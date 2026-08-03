@@ -1,0 +1,16 @@
+version: 1.0
+artifacts:
+  -
+    description: WordPress webroot PHP files and plugin directories (web-shell hunting)
+    supported_os: [linux]
+    collector: file
+    path: /var/www/html/wp-content
+    file_type: f
+    name_pattern: ["*.php"]
+    exclude_file_system: [proc, sysfs]
+  -
+    description: WordPress debug log (canonical PHP warning location)
+    supported_os: [linux]
+    collector: file
+    path: /var/www/html/wp-content
+    name_pattern: ["debug.log"]

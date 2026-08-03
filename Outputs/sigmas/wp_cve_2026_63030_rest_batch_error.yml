@@ -1,0 +1,34 @@
+title: Possible CVE-2026-63030 WordPress REST batch/v1 exploitation (PHP error log)
+status: experimental
+description: |
+  Detects the PHP warning pair emitted by WP_REST_Server::serve_batch_request_v1 when the
+  batch endpoint is fed a crafted request, together with the SQL syntax error produced by
+  the resulting injection. Line numbers differ per WordPress version and are deliberately
+  not matched.
+  NOTE (validated against a patched 7.0.2 control): these warnings fire only when the
+  injection SUCCEEDS. A patched host produces none of them, so this rule detects
+  successful exploitation / compromise, not scanning or failed attempts.
+date: 2026-08-03
+references:
+  - https://nvd.nist.gov/vuln/detail/CVE-2026-63030
+  - https://github.com/WordPress/wordpress-develop/security/advisories/GHSA-ff9f-jf42-662q
+logsource:
+  category: application
+  product: php
+detection:
+  selection_file:
+    message|contains: '/wp-includes/rest-api/class-wp-rest-server.php'
+  selection_msg:
+    message|contains:
+      - 'Undefined array key'
+      - 'Trying to access array offset on null'
+  selection_sqli:
+    message|contains|all:
+      - 'WordPress database error'
+      - 'serve_batch_request_v1'
+  condition: (selection_file and selection_msg) or selection_sqli
+fields:
+  - message
+falsepositives:
+  - Broken third-party plugins registering malformed REST batch routes
+level: high

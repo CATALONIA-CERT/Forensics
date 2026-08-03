@@ -1,0 +1,26 @@
+title: wp2shell web shell access following CVE-2026-63030 exploitation
+status: experimental
+description: |
+  Detects HTTP access to the wp2shell PHP web shell dropped under wp-content/plugins after
+  CVE-2026-63030 exploitation. The plugin directory and file share a random 8-hex name, and
+  the shell requires a 32-hex token (t=) parameter. The file hash is per-run random, so this
+  URI/parameter shape is the stable signal. The wp2shell_ naming is tool-specific.
+date: 2026-08-03
+references:
+  - https://nvd.nist.gov/vuln/detail/CVE-2026-63030
+logsource:
+  category: webserver
+detection:
+  selection:
+    cs-uri-stem|re: '/wp-content/plugins/wp2shell_[0-9a-f]{8}/wp2shell_[0-9a-f]{8}\.php'
+  selection_params:
+    cs-uri-query|re: 't=[0-9a-f]{32}'
+  condition: selection and selection_params
+fields:
+  - c-ip
+  - cs-uri-stem
+  - cs-uri-query
+  - cs-user-agent
+falsepositives:
+  - None expected
+level: critical
