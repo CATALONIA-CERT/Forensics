@@ -1,0 +1,27 @@
+title: PHP Memory Exhaustion or Zend Heap Corruption in Web Error Logs
+id: 99406fb7-a2e7-445c-a4d7-0cf740b26912
+status: experimental
+description: >
+    Hunting template for PHP OOM errors and Zend heap-corruption messages that
+    appeared during a locally confirmed PHP2Shell RCE test. These errors alone
+    are nonspecific and this rule does not assert successful exploitation.
+references:
+    - https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w
+    - https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp
+author: DFIR lab (experimental template)
+date: 2026-10-30
+logsource:
+    product: linux
+    service: apache
+detection:
+    selection_oom:
+        Message|contains: 'Allowed memory size of'
+    selection_heap:
+        Message|contains: 'zend_mm_heap corrupted'
+    condition: 1 of selection_*
+falsepositives:
+    - Legitimate PHP resource exhaustion or memory-management bugs
+    - Unrelated PHP request failures and worker crashes
+level: low
+tags:
+    - attack.t1190

@@ -1,0 +1,34 @@
+title: Linux Web Server Worker Spawning a Shell Interpreter
+id: 43bd4d8a-8ac9-4c5b-aac6-5123fc4a7469
+status: experimental
+description: >
+    Hunting template for web-server workers launching a shell. This is a generic
+    web-server RCE / web-shell behavior, not PHP2Shell-specific. Process
+    telemetry for this lineage was not collected in the referenced lab test.
+references:
+    - https://attack.mitre.org/techniques/T1059/004/
+    - https://attack.mitre.org/techniques/T1190/
+author: DFIR lab (experimental template)
+date: 2026-10-30
+logsource:
+    category: process_creation
+    product: linux
+detection:
+    selection_parent:
+        ParentImage|endswith:
+            - '/apache2'
+            - '/httpd'
+            - '/php-fpm'
+            - '/php-fpm8.4'
+    selection_child:
+        Image|endswith:
+            - '/sh'
+            - '/dash'
+            - '/bash'
+    condition: selection_parent and selection_child
+falsepositives:
+    - Legitimate applications invoking shell-based helper scripts
+    - Administrative or monitoring tasks launched through web-service automation
+level: medium
+tags:
+    - attack.t1059.004
